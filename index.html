@@ -1,1 +1,245 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>План запуска школы подготовки детей — Санкт-Петербург</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;background:#f5f3ef;color:#18181b;min-height:100vh;padding:32px 16px 80px}
+.wrap{max-width:820px;margin:0 auto}
 
+.card{background:#fff;border-radius:14px;border:1px solid rgba(0,0,0,0.09);margin-bottom:14px;overflow:hidden}
+
+.header{padding:32px 36px 28px}
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#a1a1aa;margin-bottom:10px}
+.header h1{font-size:24px;font-weight:700;line-height:1.3;margin-bottom:6px}
+.header-sub{font-size:14px;color:#71717a;margin-bottom:22px}
+.meta{display:flex;gap:20px;flex-wrap:wrap;margin-bottom:22px}
+.meta-item{display:flex;align-items:center;gap:7px;font-size:13px;color:#52525b}
+.dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.progress-row{display:flex;align-items:center;gap:14px}
+.pbar-wrap{flex:1;height:7px;background:#e4e4e7;border-radius:99px;overflow:hidden}
+.pbar-fill{height:100%;background:#e76f38;border-radius:99px;transition:width .3s ease;width:0%}
+.plabel{font-size:13px;font-weight:700;color:#18181b;min-width:52px;text-align:right}
+
+.phase{background:#fff;border-radius:14px;border:1px solid rgba(0,0,0,0.09);margin-bottom:12px;overflow:hidden}
+.ph-head{display:flex;align-items:center;gap:12px;padding:16px 22px;cursor:pointer;user-select:none;border-bottom:1px solid rgba(0,0,0,0.07)}
+.ph-num{font-size:10px;font-weight:800;letter-spacing:.1em;color:var(--pc);min-width:50px}
+.ph-badge{padding:3px 10px;border-radius:99px;font-size:11px;font-weight:700;background:var(--pbg);color:var(--pc);border:1px solid var(--pbd);white-space:nowrap}
+.ph-title{font-size:13px;font-weight:700;flex:1}
+.ph-count{font-size:12px;color:#a1a1aa;white-space:nowrap}
+.ph-arrow{color:#a1a1aa;font-size:18px;line-height:1;transition:transform .2s;margin-left:4px}
+.phase.open .ph-arrow{transform:rotate(180deg)}
+.ph-body{display:none;padding:6px 0 10px}
+.phase.open .ph-body{display:block}
+
+.step{display:flex;align-items:flex-start;gap:13px;padding:11px 22px;cursor:pointer;transition:background .12s}
+.step:hover{background:#f9f9f7}
+.step.done{opacity:.5}
+.step.done .step-title{text-decoration:line-through;color:#a1a1aa}
+.chk{width:20px;height:20px;border-radius:6px;border:1.5px solid #d4d4d8;flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;transition:background .15s,border-color .15s;background:#fff}
+.step.done .chk{background:var(--pc);border-color:var(--pc)}
+.chk-inner{display:none;width:10px;height:6px;border-left:2px solid #fff;border-bottom:2px solid #fff;transform:rotate(-45deg) translateY(-1px)}
+.step.done .chk-inner{display:block}
+.snum{font-size:10px;font-weight:800;color:#d4d4d8;min-width:18px;margin-top:4px}
+.scontent{flex:1}
+.step-title{font-size:14px;font-weight:600;line-height:1.5;margin-bottom:3px;color:#18181b}
+.step-desc{font-size:13px;color:#71717a;line-height:1.55}
+.stag{display:inline-block;font-size:11px;font-weight:700;padding:2px 9px;border-radius:99px;background:var(--pbg);color:var(--pc);border:1px solid var(--pbd);margin-top:6px}
+
+.budget-card{background:#fff;border-radius:14px;border:1px solid rgba(0,0,0,0.09);padding:26px 30px;margin-bottom:12px}
+.budget-card h2{font-size:15px;font-weight:700;margin-bottom:18px}
+.brows{display:flex;flex-direction:column;gap:10px}
+.brow{display:flex;align-items:center;gap:12px}
+.blabel{font-size:13px;color:#71717a;width:210px;flex-shrink:0}
+.bbar-wrap{flex:1;height:6px;background:#f4f4f5;border-radius:99px;overflow:hidden}
+.bbar{height:100%;border-radius:99px}
+.bamount{font-size:13px;font-weight:700;min-width:100px;text-align:right}
+.btotal{display:flex;justify-content:space-between;padding-top:14px;margin-top:8px;border-top:1px solid #f4f4f5;font-size:14px;font-weight:700}
+
+.warn-card{background:#fffbf0;border-radius:14px;border:1px solid #fde68a;padding:22px 26px;margin-bottom:12px}
+.warn-card h2{font-size:13px;font-weight:700;color:#92400e;margin-bottom:12px}
+.wi{display:flex;gap:10px;margin-bottom:9px;font-size:13px;line-height:1.55;color:#78350f}
+.wi:last-child{margin-bottom:0}
+.wdot{width:6px;height:6px;border-radius:50%;background:#f59e0b;margin-top:7px;flex-shrink:0}
+.footer{text-align:center;font-size:12px;color:#a1a1aa;padding-top:6px}
+
+@media(max-width:600px){
+  .header{padding:22px 18px 20px}
+  .ph-head{padding:13px 14px}
+  .step{padding:10px 14px}
+  .budget-card{padding:18px 18px}
+  .blabel{width:140px;font-size:12px}
+  .header h1{font-size:19px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="card header">
+  <div class="eyebrow">Дорожная карта проекта</div>
+  <h1>Запуск школы подготовки детей<br>Санкт-Петербург</h1>
+  <div class="header-sub">2 студии · Логопед, ментальная арифметика, скорочтение · Бюджет до 100 000 ₽</div>
+  <div class="meta">
+    <div class="meta-item"><div class="dot" style="background:#e76f38"></div>Старт: сегодня</div>
+    <div class="meta-item"><div class="dot" style="background:#2a9d60"></div>Запуск: через 2 недели</div>
+    <div class="meta-item"><div class="dot" style="background:#2d7dd2"></div>25 шагов</div>
+  </div>
+  <div class="progress-row">
+    <div class="pbar-wrap"><div class="pbar-fill" id="pbar"></div></div>
+    <div class="plabel" id="plabel">0 / 25</div>
+  </div>
+</div>
+
+<div id="phases"></div>
+
+<div class="budget-card">
+  <h2>💰 Бюджет на запуск — 100 000 ₽</h2>
+  <div class="brows">
+    <div class="brow"><div class="blabel">Лендинг (уже в работе)</div><div class="bbar-wrap"><div class="bbar" style="width:10%;background:#e76f38"></div></div><div class="bamount">10 000 ₽</div></div>
+    <div class="brow"><div class="blabel">Яндекс.Директ</div><div class="bbar-wrap"><div class="bbar" style="width:38%;background:#2d7dd2"></div></div><div class="bamount">35–40 000 ₽</div></div>
+    <div class="brow"><div class="blabel">Таргет ВКонтакте</div><div class="bbar-wrap"><div class="bbar" style="width:18%;background:#6c47d4"></div></div><div class="bamount">15–20 000 ₽</div></div>
+    <div class="brow"><div class="blabel">Полиграфия + промоутер</div><div class="bbar-wrap"><div class="bbar" style="width:10%;background:#2a9d60"></div></div><div class="bamount">8–10 000 ₽</div></div>
+    <div class="brow"><div class="blabel">Фото студий</div><div class="bbar-wrap"><div class="bbar" style="width:5%;background:#2a9d60"></div></div><div class="bamount">4–5 000 ₽</div></div>
+    <div class="brow"><div class="blabel">Сервисы (АТС, CRM, запись)</div><div class="bbar-wrap"><div class="bbar" style="width:5%;background:#71717a"></div></div><div class="bamount">4–5 000 ₽/мес</div></div>
+    <div class="brow"><div class="blabel" style="color:#d63f5e;font-weight:700">Резерв — не трогать!</div><div class="bbar-wrap"><div class="bbar" style="width:13%;background:#d63f5e"></div></div><div class="bamount" style="color:#d63f5e">10–15 000 ₽</div></div>
+  </div>
+  <div class="btotal"><span>Итого</span><span>~100 000 ₽</span></div>
+</div>
+
+<div class="warn-card">
+  <h2>⚡ На что обратить внимание</h2>
+  <div class="wi"><div class="wdot"></div><div>Программы и прайс — главное узкое горлышко. Без чёткого описания направлений нечего давать на лендинг и в рекламу. Делайте в первые дни.</div></div>
+  <div class="wi"><div class="wdot"></div><div>Обработка заявок. Перезвон в течение 15 минут критичен: теряете 30–50% заявок при медленном ответе. Назначьте администратора или чат-бот на первичный ответ.</div></div>
+  <div class="wi"><div class="wdot"></div><div>Окупаемость рекламы в детском доп.образовании — 1.5–3 месяца. Планируйте финансы с учётом этого горизонта.</div></div>
+  <div class="wi"><div class="wdot"></div><div>Передайте исполнителю все материалы для лендинга (программы, фото, цены, отзывы), иначе получите шаблонный текст без конверсии.</div></div>
+</div>
+
+<div class="footer">Нажмите на шаг — отметьте как выполненный</div>
+</div>
+
+<script>
+var phases=[
+  {id:1,color:'#e76f38',bg:'#fef3ec',bd:'#fbd5bc',label:'До понедельника',title:'Подготовка — параллельно с лендингом',steps:[
+    {t:'Доделать программы по каждому направлению',d:'Для каждого курса (логопед, ментальная арифметика, скорочтение, подготовка к школе, 1–5 класс): длительность, кол-во занятий, размер группы, длительность урока, результат для ребёнка.',tag:'Критично'},
+    {t:'Зафиксировать прайс',d:'Цены групповых, индивидуальных, абонементов (4/8 занятий), пробного урока. Изучите 5–7 конкурентов в ваших районах СПб. Решите: бесплатное пробное или платное (500 ₽ даёт более качественные заявки).',tag:'Критично'},
+    {t:'Передать материалы исполнителю лендинга',d:'Программы, цены, фото студий, фото преподавателей с короткими биографиями, отзывы с Яндекс.Карт, УТП по направлениям, оба адреса студий.',tag:'Срочно'},
+    {t:'Сделать фото обеих студий',d:'Фотограф за 3–5к или тщательно на телефон: 15–20 фото каждой студии. Подготовьте студии — вывеска, декор, навигация. Нужны красивые пространства, а не пустые комнаты.',tag:'До пятницы'},
+    {t:'Обновить карточки Яндекс.Бизнес',d:'Убедитесь что вы владелец карточки (у вас уже есть отзывы). Для второй студии — создайте карточку. Заполните полностью: фото, услуги, цены, часы работы.',tag:'Бесплатно'},
+    {t:'Создать/обновить карточки в 2ГИС',d:'Для обеих студий. Заполните подробно — это бесплатный органический трафик с первого дня.',tag:'Бесплатно'}
+  ]},
+  {id:2,color:'#2d7dd2',bg:'#eff6ff',bd:'#bfdbfe',label:'Пн–Вт',title:'Технический фундамент',steps:[
+    {t:'Принять и проверить лендинг',d:'Скорость загрузки (PageSpeed), мобильная вёрстка, все формы работают, телефон кликабельный, нет болванки в текстах. Критичные правки — сразу исполнителю.',tag:'Понедельник'},
+    {t:'Подключить Яндекс.Метрику',d:'Установить счётчик, включить Вебвизор, карту скроллинга и карту кликов. Это обязательно до запуска любой рекламы.',tag:'Бесплатно'},
+    {t:'Настроить цели в Метрике',d:'Минимум: отправка формы заявки, клик по номеру телефона, клик по WhatsApp/Telegram, переход на карту, скролл 75%. Без целей реклама — деньги в пустоту.',tag:'Критично'},
+    {t:'Подключить виртуальную АТС',d:'Mango Office, UIS или Билайн.Облако — 1.5–3к/мес. Важно: запись звонков, отдельный номер на каждую студию, интеграция с CRM.',tag:'~2 000 ₽/мес'},
+    {t:'Поставить CRM',d:'AmoCRM или Битрикс24 (бесплатный тариф). Воронка: заявка → дозвонились → записали на пробное → пришли → купили абонемент.',tag:'Бесплатно / 1 500 ₽'},
+    {t:'Подключить онлайн-запись и оплату',d:'Виджет YCLIENTS (~1.5к/мес): расписание, напоминания, журнал. Для приёма оплат — ЮKassa или Тинькофф.Касса под ваше ИП.',tag:'~2 000 ₽/мес'},
+    {t:'Установить пиксели ВКонтакте и Top.Mail.Ru',d:'Нужны для запуска таргета и ретаргета. Устанавливаются через код на страницах сайта — дайте задание исполнителю лендинга.',tag:'Бесплатно'}
+  ]},
+  {id:3,color:'#6c47d4',bg:'#f3f0fd',bd:'#d8cffe',label:'3–7 день',title:'Запуск платного трафика',steps:[
+    {t:'Яндекс.Директ — поисковые кампании',d:'Отдельная кампания на каждое направление + общая «школа подготовки детей СПб». Геотаргетинг: радиус 3–5 км вокруг каждой студии.',tag:'25–35 000 ₽'},
+    {t:'Яндекс.Директ — РСЯ с креативами',d:'Запускать одновременно с поиском или чуть позже. Используйте фото студий и детей (с согласия родителей).',tag:'10–15 000 ₽'},
+    {t:'Таргет ВКонтакте',d:'Аудитории: родители 28–45 лет в нужных районах, подписчики конкурентов, мамские сообщества районов. Короткие видео из студий работают лучше статики.',tag:'15–20 000 ₽'},
+    {t:'Прогрев группы ВКонтакте',d:'За неделю до рекламы: 5–7 постов (преподаватели, программы, отзывы, фото студий, FAQ). Закрепите пост-визитку с ценами и кнопкой записи.',tag:'До рекламы'}
+  ]},
+  {id:4,color:'#2a9d60',bg:'#f0fdf5',bd:'#bbf7d0',label:'Параллельно',title:'Бесплатные и локальные каналы',steps:[
+    {t:'Листовки и полиграфия',d:'Печать 2000–3000 листовок + штендер у входа в каждую студию. Раздача у школ и детских садов в радиусе 500м. Промоутер за 300–500 ₽/час.',tag:'8–10 000 ₽'},
+    {t:'Партнёрства с локальным бизнесом',d:'Обойти в 1км от каждой студии: детские сады, школы, стоматологии, развивайки другого профиля. Взаимные рекомендации или обмен листовками.',tag:'Бесплатно'},
+    {t:'Районные чаты Telegram и ВКонтакте',d:'Найти родительские чаты ваших районов, вступить, аккуратно представиться. Давать полезное (чек-лист «готов ли ребёнок к школе»). 1–2 группы = десятки бесплатных заявок.',tag:'Бесплатно'}
+  ]},
+  {id:5,color:'#d63f5e',bg:'#fdf0f3',bd:'#fdb8c8',label:'2-я неделя',title:'Открытие',steps:[
+    {t:'День открытых дверей в обеих студиях',d:'В субботу-воскресенье. Мастер-класс 30–40 минут по каждому направлению, родители рядом. Закрывает сделку лучше любого лендинга. Анонсировать за неделю во всех каналах.',tag:'Суббота-воскресенье'},
+    {t:'Скрипт первого звонка',d:'Для вас и администратора. Цель звонка — не продать, а записать на пробное. Перезвон в течение 15 минут — ключевой KPI.',tag:'Критично'}
+  ]},
+  {id:6,color:'#71717a',bg:'#f4f4f5',bd:'#d4d4d8',label:'Со 2-й недели',title:'После запуска — оптимизация',steps:[
+    {t:'Ежедневный разбор метрик',d:'Сколько заявок, цена заявки по каналам, конверсия в пробное, конверсия в покупку. Отключайте то, что не работает. Докручивайте то, что работает.',tag:'Каждый день'},
+    {t:'Сбор отзывов',d:'После первого занятия просить родителей оставить отзыв на Яндекс.Картах, 2ГИС, ВКонтакте. Самый дешёвый способ роста на дистанции.',tag:'Регулярно'},
+    {t:'Реферальная программа',d:'«Приведи друга — получи занятие в подарок». Запускать после первых платящих клиентов. Один из самых конверсионных инструментов в детских центрах.',tag:'После первых продаж'}
+  ]}
+];
+
+var checked={};
+var total=0;
+phases.forEach(function(p){total+=p.steps.length;});
+
+function updateProgress(){
+  var done=Object.keys(checked).length;
+  var pct=Math.round(done/total*100);
+  document.getElementById('pbar').style.width=pct+'%';
+  document.getElementById('pbar').style.background=pct===100?'#2a9d60':'#e76f38';
+  document.getElementById('plabel').textContent=done+' / '+total;
+}
+
+function toggleStep(key,phaseEl,phaseData){
+  if(checked[key]){
+    delete checked[key];
+  } else {
+    checked[key]=true;
+  }
+  var stepEl=document.querySelector('[data-key="'+key+'"]');
+  if(stepEl){
+    if(checked[key]){stepEl.classList.add('done');}
+    else{stepEl.classList.remove('done');}
+  }
+  var done=0;
+  for(var i=0;i<phaseData.steps.length;i++){
+    if(checked[phaseData.id+'_'+i])done++;
+  }
+  phaseEl.querySelector('.ph-count').textContent=done+'/'+phaseData.steps.length;
+  updateProgress();
+}
+
+function togglePhase(el){
+  el.classList.toggle('open');
+}
+
+var container=document.getElementById('phases');
+var gStep=0;
+
+phases.forEach(function(phase){
+  var phaseEl=document.createElement('div');
+  phaseEl.className='phase open';
+  phaseEl.style.cssText='--pc:'+phase.color+';--pbg:'+phase.bg+';--pbd:'+phase.bd;
+
+  var head=document.createElement('div');
+  head.className='ph-head';
+  head.innerHTML='<div class="ph-num">ЭТАП '+phase.id+'</div>'
+    +'<div class="ph-badge">'+phase.label+'</div>'
+    +'<div class="ph-title">'+phase.title+'</div>'
+    +'<div class="ph-count">0/'+phase.steps.length+'</div>'
+    +'<div class="ph-arrow">▾</div>';
+  head.addEventListener('click',function(){togglePhase(phaseEl);});
+  phaseEl.appendChild(head);
+
+  var body=document.createElement('div');
+  body.className='ph-body';
+
+  phase.steps.forEach(function(step,si){
+    gStep++;
+    var key=phase.id+'_'+si;
+    var stepEl=document.createElement('div');
+    stepEl.className='step';
+    stepEl.setAttribute('data-key',key);
+    stepEl.style.cssText='--pc:'+phase.color+';--pbg:'+phase.bg+';--pbd:'+phase.bd;
+    stepEl.innerHTML='<div class="chk"><div class="chk-inner"></div></div>'
+      +'<div class="snum">'+String(gStep).padStart(2,'0')+'</div>'
+      +'<div class="scontent">'
+        +'<div class="step-title">'+step.t+'</div>'
+        +'<div class="step-desc">'+step.d+'</div>'
+        +(step.tag?'<div class="stag">'+step.tag+'</div>':'')
+      +'</div>';
+    stepEl.addEventListener('click',function(){toggleStep(key,phaseEl,phase);});
+    body.appendChild(stepEl);
+  });
+
+  phaseEl.appendChild(body);
+  container.appendChild(phaseEl);
+});
+
+updateProgress();
+</script>
+</body>
+</html>
