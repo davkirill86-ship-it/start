@@ -166,7 +166,9 @@ var phases=[
   ]}
 ];
 
+var STORAGE_KEY='uniqum_plan_v1';
 var checked={};
+try{var saved=localStorage.getItem(STORAGE_KEY);if(saved)checked=JSON.parse(saved);}catch(e){}
 var total=28;
 
 function updateProgress(){
@@ -183,6 +185,7 @@ function toggleStep(key,phaseEl,phaseData){
   } else {
     checked[key]=true;
   }
+  try{localStorage.setItem(STORAGE_KEY,JSON.stringify(checked));}catch(e){}
   var stepEl=document.querySelector('[data-key="'+key+'"]');
   if(stepEl){
     if(checked[key]){stepEl.classList.add('done');}
@@ -236,10 +239,14 @@ phases.forEach(function(phase){
         +(step.tag?'<div class="stag">'+step.tag+'</div>':'')
       +'</div>';
     stepEl.addEventListener('click',function(){toggleStep(key,phaseEl,phase);});
+    if(checked[key]){stepEl.classList.add('done');}
     body.appendChild(stepEl);
   });
 
   phaseEl.appendChild(body);
+  var initDone=0;
+  for(var i=0;i<phase.steps.length;i++){if(checked[phase.id+'_'+i])initDone++;}
+  phaseEl.querySelector('.ph-count').textContent=initDone+'/'+phase.steps.length;
   container.appendChild(phaseEl);
 });
 
